@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Usuario
  *
- * @ORM\Table(name="users_system")
+ * @ORM\Table(name="security_usuarios")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsuarioRepository")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
@@ -37,21 +37,28 @@ class Usuario  implements UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="apellido", type="string", length=255)
+     */
+    private $apellido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=512)
      */
     private $password;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="codigoEmpresa", type="string", length=3)
+     * @ORM\Column(type="json_array")
      */
-    private $codigoEmpresa;
-
-    /**
-     * @ORM\Column(name="roles", type="json_array")
-     */
-    private $roles;
+    private $roles = [];
 
     /**
      * @Assert\NotBlank
@@ -60,15 +67,15 @@ class Usuario  implements UserInterface
     private $plainPassword;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Empresa") 
-    * @ORM\JoinColumn(name="id_empresa", referencedColumnName="id", nullable=true)
-    */      
-    private $empresa;
+     * @ORM\ManyToMany(targetEntity="Estructura", inversedBy="usuarios")
+     * @ORM\JoinTable(name="security_usuario_estructuras")
+     */
+    private $estructuras;
 
     /**
      * @ORM\Column(name="activo", type="boolean", nullable=false, options={"default":true})
      */
-    private $activo;
+    private $activo = true;
 
     /**
      * Get id
@@ -145,29 +152,8 @@ class Usuario  implements UserInterface
     {
         return $this->plainPassword;
     }
-    /**
-     * Set roles
-     *
-     * @param array $roles
-     *
-     * @return Usuario
-     */
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
 
-        return $this;
-    }
 
-    /**
-     * Get roles
-     *
-     * @return array
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
 
     public function getSalt()
     {
@@ -181,50 +167,89 @@ class Usuario  implements UserInterface
     }
 
     /**
-     * Set codigoEmpresa
+     * Set activo
      *
-     * @param string $codigoEmpresa
+     * @param boolean $activo
      *
      * @return Usuario
      */
-    public function setCodigoEmpresa($codigoEmpresa)
+    public function setActivo($activo)
     {
-        $this->codigoEmpresa = $codigoEmpresa;
+        $this->activo = $activo;
 
         return $this;
     }
 
     /**
-     * Get codigoEmpresa
+     * Get activo
      *
-     * @return string
+     * @return boolean
      */
-    public function getCodigoEmpresa()
+    public function getActivo()
     {
-        return $this->codigoEmpresa;
+        return $this->activo;
     }
 
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+ 
+
     /**
-     * Set empresa
+     * Set roles
      *
-     * @param \AppBundle\Entity\Empresa $empresa
+     * @param array $roles
      *
      * @return Usuario
      */
-    public function setEmpresa(\AppBundle\Entity\Empresa $empresa = null)
+    public function setRoles($roles)
     {
-        $this->empresa = $empresa;
+        $this->roles = $roles;
+
+        return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->estructuras = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     *
+     * @return Usuario
+     */
+    public function addEstructura(\AppBundle\Entity\Estructura $estructura)
+    {
+        $this->estructuras[] = $estructura;
 
         return $this;
     }
 
     /**
-     * Get empresa
+     * Remove estructura
      *
-     * @return \AppBundle\Entity\Empresa
+     * @param \AppBundle\Entity\Estructura $estructura
      */
-    public function getEmpresa()
+    public function removeEstructura(\AppBundle\Entity\Estructura $estructura)
     {
-        return $this->empresa;
+        $this->estructuras->removeElement($estructura);
+    }
+
+    /**
+     * Get estructuras
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEstructuras()
+    {
+        return $this->estructuras;
     }
 }

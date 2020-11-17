@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UsuarioType extends AbstractType
 {
@@ -24,7 +25,18 @@ class UsuarioType extends AbstractType
                         'first_options'  => ['label' => 'Password'],
                         'second_options' => ['label' => 'Reingresar Password']
                         ])
-                ->add('empresa')
+                ->add('roles', ChoiceType::class, array(
+                    'choices' => 
+                    array
+                    (
+                        'Responsable de rafico' => 'ROLE_RESPONSABLE_TRAFICO',
+                        'Responsable de Diagramacion' => 'ROLE_RESPONSABLE_DIAGRAMACION',
+                        'Operaddor' => 'ROLE_OPERADOR'
+                    ) 
+                    ,
+                    'required' => true,
+                    )
+                )
                 ->add('registrar', SubmitType::class);
     }/**
      * {@inheritdoc}

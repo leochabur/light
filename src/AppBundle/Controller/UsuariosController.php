@@ -7,19 +7,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use AppBundle\Entity\Estructura;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class UsuariosController extends Controller
 {
 
     /**
-     * @Route("/login", name="login_usuario")
+     * @Route("/login", name="login")
      */
     public function loginAction(AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirectToRoute('home_page');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('default/login.html.twig', [
@@ -29,11 +36,35 @@ class UsuariosController extends Controller
     }
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/redirect/{str}", name="redirect_to_index")
      */
-    public function homeAction()
+    public function homeAction($str)
+    {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $entityManager = $this->getDoctrine()->getManager();
+        $estructura = $entityManager->find(Estructura::class, $str);
+
+        $this->get('session')->set('estructura', $estructura);
+
+        return $this->redirectToRoute('home_page');
+    }
+
+    /**
+     * @Route("/select", name="select_estructura")
+     */
+    public function selectEstructuraAction()
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        return $this->render('default/index.html.twig');
+
+        return $this->render('default/select.html.twig');
+    }
+
+    /**
+     * @Route("/home", name="home_page")
+     */
+    public function indexAction()
+    {
+       return $this->render('@Gestion/Default/index.html.twig');
     }
 }

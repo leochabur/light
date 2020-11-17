@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="h3 mt-5 mb-3">{{ label }}</div>
+    <hr>
+    {{ form_start(form, {'attr' : {'novalidate' : 'novalidate', 'class' : 'border border-light'}}) }}
+    	<div class='form-row ml-2 mt-2 h4 text-muted'>
+    		Datos Contables
+    	</div>	 
+	    <div class='form-row ml-4 mr-2 mt-2'>	 
+	    	<div class=' col-lg-2 col-sm-12'>
+			    {{ form_label(form.prefijo) }}
+			    {{ form_widget(form.prefijo, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    <div class="text-danger">{{ form_errors(form.prefijo) }}</div>
+			</div>   
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.razonSocial) }}
+			    {{ form_widget(form.razonSocial, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.razonSocial) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.nombreFantasia) }}
+			    {{ form_widget(form.nombreFantasia, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.nombreFantasia) }}
+			</div>
+		</div>
+	    <div class='form-row ml-4 mr-2 mt-2'>	    
+	    	<div class=' col-lg-2 col-sm-12'>
+			    {{ form_label(form.cuit) }}
+			    {{ form_widget(form.cuit, { 'attr' : {'class' : 'form-control cuit'}}) }}
+			    {{ form_errors(form.cuit) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.domicilioFiscal) }}
+			    {{ form_widget(form.domicilioFiscal, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.domicilioFiscal) }}
+			</div>
+	    	<div class=' col-lg-2 col-sm-12'>
+			    {{ form_label(form.responsabilidad, 'Responsabilidad IVA') }}
+			    {{ form_widget(form.responsabilidad, { 'attr' : {'class' : 'form-control '}}) }}
+			    {{ form_errors(form.responsabilidad) }}
+			</div>
+		</div>
+	    <div class='form-row ml-4 mr-2 mt-2'>	   
+	    	<div class=' col-lg-2 col-sm-12'>
+			    {{ form_label(form.condicionPago) }}
+			    {{ form_widget(form.condicionPago, { 'attr' : {'class' : 'form-control cuit'}}) }}
+			    {{ form_errors(form.condicionPago) }}
+			</div> 
+	    	<div class=' col-lg-2 col-sm-12'>
+			    {{ form_label(form.tipoFactura) }}
+			    {{ form_widget(form.tipoFactura, { 'attr' : {'class' : 'form-control cuit'}}) }}
+			    {{ form_errors(form.tipoFactura) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.tipoAjuste) }}
+			    {{ form_widget(form.tipoAjuste, { 'attr' : {'class' : 'form-control'}}) }}
+			    {{ form_errors(form.tipoAjuste) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.frecuencaAjuste) }}
+			    {{ form_widget(form.frecuencaAjuste, { 'attr' : {'class' : 'form-control'}}) }}
+			    {{ form_errors(form.frecuencaAjuste) }}
+			</div>
+		</div>
+    	<div class='form-row ml-2 mt-4 h4 text-muted'>
+    		Datos Operativos
+    	</div>	 
+	    <div class='form-row ml-4 mr-2 mt-2'>	    
+<ul class="tags" data-prototype="{% filter escape %}{% include '@Gestion/ventas/formPrototype.html.twig' with { 'elem': form.ubicaciones.vars.prototype } %}{% endfilter %}">
+
+        {% for ubicacion in form.ubicaciones %}
+            <li>
+            	<div class='form-row'>
+            		<div class=' col-lg-3'>
+		            	{{ form_label(ubicacion.latitud, 'Latitud') }}
+		            	{{ form_widget(ubicacion.latitud , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
+		            </div>
+            		<div class=' col-lg-3'>
+		            	{{ form_label(ubicacion.longitud, 'Longitud') }}
+		            	{{ form_widget(ubicacion.longitud , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
+		            </div>
+            		<div class=' col-lg-3'>
+		            	{{ form_label(ubicacion.ciudad, 'Ciudad') }}
+		            	{{ form_widget(ubicacion.ciudad , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
+		            </div>
+            		<div class=' col-lg-3'>
+		            	{{ form_label(ubicacion.estructura, 'Estructura') }}
+		            	{{ form_widget(ubicacion.estructura , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
+		            </div>
+            	</div>
+            </li>
+            	
+        {% endfor %}
+
+</ul>
+		</div>
+
+    	<div class='form-row ml-2 mt-4 h4 text-muted'>
+    		Datos de contacto
+    	</div>
+	    <div class='form-row ml-4 mr-2 mt-2'>	   
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.nombreContacto) }}
+			    {{ form_widget(form.nombreContacto, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.nombreContacto) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.cargoContacto) }}
+			    {{ form_widget(form.cargoContacto, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.cargoContacto) }}
+			</div> 
+		</div>
+		<div class='form-row ml-4 mr-2 mt-2'>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.telefonoContacto) }}
+			    {{ form_widget(form.telefonoContacto, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.telefonoContacto) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.celularContacto) }}
+			    {{ form_widget(form.celularContacto, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.celularContacto) }}
+			</div>
+	    	<div class=' col-lg-4 col-sm-12'>
+			    {{ form_label(form.mailContacto) }}
+			    {{ form_widget(form.mailContacto, { 'attr' : {'class' : 'form-control text-uppercase'}}) }}
+			    {{ form_errors(form.mailContacto) }}
+			</div>
+		</div>
+		<div class='form-row ml-4 mr-2 mt-2'>
+			{{ form_widget(form.guardar, { 'attr' : {'class' : 'btn btn-success'}}) }}
+		</div>
+    
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+var $collectionHolder;
+
+// setup an "add a tag" link
+var $addTagLink = $('<a href="#" class="add_tag_link btn btn-sm btn-warning">Nueva Ubicacion Planta</a>');
+var $newLinkLi = $('<li></li>').append($addTagLink);
+
+$(document).ready(function(){
+		$( ".cuit" ).inputmask({
+								mask: '99-99999999-9',
+								placeholder: '99-99999999-9',
+								showMaskOnHover: true,
+								showMaskOnFocus: true
+							  });
+
+    // Get the ul that holds the collection of tags
+   var $collectionHolder = $('ul.tags');
+    
+
+    $collectionHolder.find('li').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.append($newLinkLi);
+    
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    
+    $addTagLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+        
+        // add a new tag form (see code block below)
+        addTagForm($collectionHolder, $newLinkLi);
+    });
+
+							    
+	});
+
+
+function addTagForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+    
+    // get the new index
+    var index = $collectionHolder.data('index');
+    
+    // Replace '$$name$$' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+    
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+    
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    
+    // also add a remove button, just for this example
+    $newFormLi.append('<a href="#" class="remove-tag btn-sm btn-danger">x</a>');
+    
+    $newLinkLi.before($newFormLi);
+    
+    // handle the removal, just for this example
+    $('.remove-tag').click(function(e) {
+        e.preventDefault();
+        
+        $(this).parent().remove();
+        
+        return false;
+    });
+}
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<a class="btn btn-sm btn-danger">x</a>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+
+
+</script>
+{% endblock %}
+

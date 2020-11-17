@@ -4,9 +4,6 @@ parameters:
     #parameter_name: value
 
 services:
-    weird_authenticator:
-        class: AppBundle\Security\UserAuthenticator
-        arguments: ['@doctrine.orm.entity_manager', '@router']
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services

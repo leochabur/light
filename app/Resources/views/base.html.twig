@@ -46,9 +46,11 @@
     </style>
 </head>
 
-<body>
+<body class="">
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    {% include 'topnav.html.twig' %}
+    {% if show_nav is not defined %}
+      {% include 'topnav.html.twig' %}
+    {% endif %}
 {% endif %}
 
 <div class="container">
@@ -59,6 +61,7 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ asset('resources/js/jquery.inputmask.bundle.js') }}"></script>
 <script src="{{ asset('resources/js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('resources/js/popper.min.js') }}"></script>
 <script src="{{ asset('resources/js/bootstrap.min.js') }}"></script>

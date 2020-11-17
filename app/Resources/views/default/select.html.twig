@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% set show_nav = false %}
+{% block content %}
+    {{ parent() }}
+<!-- Jumbotron -->
+<div class="jumbotron text-center mt-5">
+
+  <h2 class="card-title h2"> SGM - Master Bus</h2>
+  Bienvenido: {{ app.user.nombre }}, {{ app.user.apellido }}
+  <hr>
+  {% set count = 0 %}
+
+  <div class="row pl-1">
+  {%  for str in app.user.estructuras %}
+
+    {% if count == 4 %}
+      </div>
+      <div class="row mt-5 pl-1">
+      {% set count = 0 %}
+    {% endif %}
+    <div class="col-3 pl-1 pr-1">
+      <div class="card col-11 pt-2 pb-2">
+        <p class="font-weight-light">{{ str }}</p>
+        <a class="btn btn-sm red lighten-1 text-white waves-effect" href="{{ path('redirect_to_index', {str : str.id }) }}">Ingresar</a>
+      </div>
+    </div>
+    {% set count = count + 1 %}
+  {% endfor %}
+  </div>
+  <hr>
+  <div class="text-right">
+      <a class="btn red text-white" href="{{ path('logout') }}">Salir</a>
+  </div>
+
+</div>
+<!-- Jumbotron -->
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

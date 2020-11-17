@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 
 /**
  * Usuario
  *
- * @ORM\Table(name="users_system")
+ * @ORM\Table(name="security_usuarios")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsuarioRepository")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
@@ -37,21 +38,28 @@ class Usuario  implements UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="apellido", type="string", length=255)
+     */
+    private $apellido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=512)
      */
     private $password;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="codigoEmpresa", type="string", length=3)
+     * @ORM\Column(type="json_array")
      */
-    private $codigoEmpresa;
-
-    /**
-     * @ORM\Column(name="roles", type="json_array")
-     */
-    private $roles;
+    private $roles = [];
 
     /**
      * @Assert\NotBlank
@@ -60,15 +68,20 @@ class Usuario  implements UserInterface
     private $plainPassword;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Empresa") 
-    * @ORM\JoinColumn(name="id_empresa", referencedColumnName="id", nullable=true)
-    */      
-    private $empresa;
+     * @ORM\ManyToMany(targetEntity="Estructura", inversedBy="usuarios")
+     * @ORM\JoinTable(name="security_usuario_estructuras")
+     */
+    private $estructuras;
 
     /**
      * @ORM\Column(name="activo", type="boolean", nullable=false, options={"default":true})
      */
-    private $activo;
+    private $activo = true;
+
+    public function __toString()
+    {
+        return $this->apellido.', '.$this->nombre;
+    }
 
     /**
      * Get id
@@ -145,29 +158,8 @@ class Usuario  implements UserInterface
     {
         return $this->plainPassword;
     }
-    /**
-     * Set roles
-     *
-     * @param array $roles
-     *
-     * @return Usuario
-     */
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
 
-        return $this;
-    }
 
-    /**
-     * Get roles
-     *
-     * @return array
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
 
     public function getSalt()
     {
@@ -178,54 +170,6 @@ class Usuario  implements UserInterface
 
     public function eraseCredentials()
     {
-    }
-
-    /**
-     * Set codigoEmpresa
-     *
-     * @param string $codigoEmpresa
-     *
-     * @return Usuario
-     */
-    public function setCodigoEmpresa($codigoEmpresa)
-    {
-        $this->codigoEmpresa = $codigoEmpresa;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoEmpresa
-     *
-     * @return string
-     */
-    public function getCodigoEmpresa()
-    {
-        return $this->codigoEmpresa;
-    }
-
-    /**
-     * Set empresa
-     *
-     * @param \AppBundle\Entity\Empresa $empresa
-     *
-     * @return Usuario
-     */
-    public function setEmpresa(\AppBundle\Entity\Empresa $empresa = null)
-    {
-        $this->empresa = $empresa;
-
-        return $this;
-    }
-
-    /**
-     * Get empresa
-     *
-     * @return \AppBundle\Entity\Empresa
-     */
-    public function getEmpresa()
-    {
-        return $this->empresa;
     }
 
     /**
@@ -250,5 +194,116 @@ class Usuario  implements UserInterface
     public function getActivo()
     {
         return $this->activo;
+    }
+
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+ 
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return Usuario
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->estructuras = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     *
+     * @return Usuario
+     */
+    public function addEstructura(\AppBundle\Entity\Estructura $estructura)
+    {
+        $this->estructuras[] = $estructura;
+
+        return $this;
+    }
+
+    /**
+     * Remove estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     */
+    public function removeEstructura(\AppBundle\Entity\Estructura $estructura)
+    {
+        $this->estructuras->removeElement($estructura);
+    }
+
+    /**
+     * Get estructuras
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEstructuras()
+    {
+        return $this->estructuras;
+    }
+
+    /**
+     * Set apellido
+     *
+     * @param string $apellido
+     *
+     * @return Usuario
+     */
+    public function setApellido($apellido)
+    {
+        $this->apellido = $apellido;
+
+        return $this;
+    }
+
+    /**
+     * Get apellido
+     *
+     * @return string
+     */
+    public function getApellido()
+    {
+        return $this->apellido;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Usuario
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }
