@@ -38,10 +38,9 @@ class DefaultController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($usuario);
-            $usuario->setRoles(['ROLE_USER']);
             $entityManager->flush();
 
-            return $this->redirectToRoute('usuario_index');
+            return $this->redirectToRoute('registro_usuario');
         }
 
         return $this->render(

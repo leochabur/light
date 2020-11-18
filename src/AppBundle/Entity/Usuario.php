@@ -57,9 +57,9 @@ class Usuario  implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(name="roles", type="string", columnDefinition="enum('ROLE_SUPER_ADMIN', 'ROLE_OPERADOR', 'ROLE_RESPONSABLE_TRAFICO', 'ROLE_RESPONSABLE_DIAGRAMACION')")
      */
-    private $roles = [];
+    private $roles;
 
     /**
      * @Assert\NotBlank

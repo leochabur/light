@@ -33,6 +33,12 @@ class Estructura
      */
     private $usuarios;
 
+
+    public function __toString()
+    {
+        return $this->estructura;
+    }
+
     /**
      * Get id
      *

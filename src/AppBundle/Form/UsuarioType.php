@@ -18,6 +18,8 @@ class UsuarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('username')
+        ->add('apellido')
+        ->add('nombre')
                 ->add('plainPassword', 
                       RepeatedType::class,
                       ['type' => PasswordType::class,
@@ -29,9 +31,10 @@ class UsuarioType extends AbstractType
                     'choices' => 
                     array
                     (
-                        'Responsable de rafico' => 'ROLE_RESPONSABLE_TRAFICO',
+                        'Responsable de Trafico' => 'ROLE_RESPONSABLE_TRAFICO',
                         'Responsable de Diagramacion' => 'ROLE_RESPONSABLE_DIAGRAMACION',
-                        'Operaddor' => 'ROLE_OPERADOR'
+                        'Operador' => 'ROLE_OPERADOR',
+                        'Administrador' => 'ROLE_SUPER_ADMIN',
                     ) 
                     ,
                     'required' => true,
