@@ -5,7 +5,6 @@ namespace GestionBundle\Entity\ventas;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use SimpleThings\EntityAudit\Mapping\Annotation as Audit;
 
 /**
  * Cliente
@@ -14,7 +13,6 @@ use SimpleThings\EntityAudit\Mapping\Annotation as Audit;
  * @ORM\Entity(repositoryClass="GestionBundle\Repository\ventas\ClienteRepository")
  * @UniqueEntity("prefijo", message="Prefijo existente")
  * @UniqueEntity("cuit", message="CUIT existente")
- * @Audit\Auditable
  */
 class Cliente
 {
