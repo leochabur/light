@@ -15,6 +15,19 @@ class UsuariosController extends Controller
 {
 
     /**
+     * @Route("/", name="principal")
+     */
+    public function principalAction(AuthenticationUtils $authenticationUtils)
+    {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirectToRoute('select_estructura');
+        }
+
+        return $this->redirectToRoute('login');
+    }
+
+    /**
      * @Route("/login", name="login")
      */
     public function loginAction(AuthenticationUtils $authenticationUtils)
