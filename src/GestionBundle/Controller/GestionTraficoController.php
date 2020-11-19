@@ -26,17 +26,53 @@ class GestionTraficoController extends Controller
     public function altaServicioAction()
     {        
         $servicio = new Servicio();
-        $form = $this->getFormAltaServicio($servicio);
+        $url = $this->generateUrl('alta_servicio_procesar');
+        $form = $this->getFormAltaServicio($servicio, $url);
 
         return $this->render('@Gestion/trafico/altaServicio.html.twig', ['form' => $form->createView(), 'label' => 'Nuevo Servicio']);
     }
 
-    private function getFormAltaServicio($servicio)
+    /**
+     * @Route("/servicios/editar/{id}", name="editar_servicio")
+     */
+    public function editarServicioAction($id)
+    {        
+        $servicio = $this->getDoctrine()->getRepository(Servicio::class)->find($id);
+        $url = $this->generateUrl('editar_servicio_procesar', ['id' => $id]);
+        $form = $this->getFormAltaServicio($servicio, $url);
+
+        return $this->render('@Gestion/trafico/altaServicio.html.twig', ['form' => $form->createView(), 'label' => 'Modificar Servicio']);
+    }
+
+    /**
+     * @Route("/servicios/editarprocesar/{id}", name="editar_servicio_procesar", methods={"POST"})
+     */
+    public function procesarEditarServicioAction($id, Request $request)
+    {
+        $servicio = $this->getDoctrine()->getRepository(Servicio::class)->find($id);
+        $url = $this->generateUrl('editar_servicio_procesar', ['id' => $id]);
+        $form = $this->getFormAltaServicio($servicio, $url);
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($servicio);
+            $em->flush();
+            $this->addFlash(
+                                'success',
+                                'El servicio  ha sido modificado exitosamente!'
+                            );
+            return $this->redirectToRoute('lista_servicios');
+        }
+        return $this->render('@Gestion/trafico/altaServicio.html.twig', ['form' => $form->createView(), 'label' => 'Modificar Servicio']);
+    }
+
+    private function getFormAltaServicio($servicio, $url)
     {
         $user = $this->getUser();
         return $this->createForm(ServicioType::class, 
                                  $servicio, 
-                                 ['usuario' => $user, 'action' => $this->generateUrl('alta_servicio_procesar'),'method' => 'POST']);
+                                 ['usuario' => $user, 'action' => $url,'method' => 'POST']);
     }
 
     /**
@@ -45,7 +81,8 @@ class GestionTraficoController extends Controller
     public function procesarAltaServicioAction(Request $request)
     {
         $servicio = new Servicio();
-        $form = $this->getFormAltaServicio($servicio);
+        $url = $this->generateUrl('alta_servicio_procesar');
+        $form = $this->getFormAltaServicio($servicio, $url);
         $form->handleRequest($request);
         if ($form->isValid())
         {

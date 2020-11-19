@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="h3 mt-5 mb-2">Listado de servicios</div>
+    {% include '@Gestion/messages.html.twig'  %}
     <hr>
     {{ form_start(form, {'attr' : {'novalidate' : 'novalidate'}}) }} 
 	    <div class='form-row mr-2 mt-2'>	 
@@ -40,7 +41,7 @@
 			  				{% endif %}
 			  			</td>
 			  			<td class="text-center">
-			  					<a href="{{ path('editar_cliente', {id : s.id}) }}" class="btn btn-sm btn-default">Editar</a>
+			  					<a href="{{ path('editar_servicio', {id : s.id}) }}" class="btn btn-sm btn-default">Editar</a>
 			  					<a href="{{ path('alta_turnos', {id : s.id}) }}" class="btn btn-sm btn-default">Turnos</a>
 			  			</td>
 			  		</tr>

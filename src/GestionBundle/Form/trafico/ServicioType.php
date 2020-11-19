@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ServicioType extends AbstractType
 {
@@ -17,10 +18,10 @@ class ServicioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nombre')
-                ->add('latitudOrigen')
-                ->add('longitudOrigen')
-                ->add('latitudDestino')
-                ->add('longitudDestino')
+                ->add('latitudOrigen', NumberType::class, ['scale' => 13])
+                ->add('longitudOrigen', NumberType::class, ['scale' => 13])
+                ->add('latitudDestino', NumberType::class, ['scale' => 13])
+                ->add('longitudDestino', NumberType::class, ['scale' => 13])
                 ->add('sentido')
                 ->add('tipoServicio')
                 ->add('requiereUnidadHabilitada')
