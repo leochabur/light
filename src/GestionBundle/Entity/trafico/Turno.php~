@@ -57,6 +57,7 @@ class Turno
      * @var \DateTime
      *
      * @ORM\Column(name="horaInicial", type="time")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $horaInicial;
 
@@ -64,6 +65,7 @@ class Turno
      * @var DateTime
      *
      * @ORM\Column(name="horaFinal", type="time")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $horaFinal;
 
@@ -71,6 +73,7 @@ class Turno
      * @var int
      *
      * @ORM\Column(name="kmRecorrido", type="integer")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $kmRecorrido;
 
@@ -78,6 +81,7 @@ class Turno
      * @var \DateTime
      *
      * @ORM\Column(name="duracion", type="time")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $duracion;
 
@@ -85,6 +89,7 @@ class Turno
      * @var int
      *
      * @ORM\Column(name="numeroPaxSolicitado", type="integer")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $numeroPaxSolicitado;
 
@@ -92,6 +97,7 @@ class Turno
      * @var int
      *
      * @ORM\Column(name="antiguedad", type="integer")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $antiguedad; //antiguedad maxima de la unidad que debe realizar el servicio
 

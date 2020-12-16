@@ -36,8 +36,7 @@
 
         </ul>
       </li>
-    {% endif  %}
-      {% if is_granted('ROLE_SUPER_ADMIN') %}
+
       <li class="nav-item dropdown red accent-4"> 
         <a class="nav-link dropdown-toggle btn red accent-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Gestion Trafico
@@ -50,6 +49,34 @@
               </ul>
             </li>
 
+        </ul>
+      </li>
+
+      <li class="nav-item dropdown red accent-4"> 
+        <a class="nav-link dropdown-toggle btn red accent-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Seguridad Vial
+        </a>
+        <ul class="dropdown-menu red accent-4" aria-labelledby="navbarDropdownMenuLink">
+            <li class="dropdown-submenu red accent-4"><a class="dropdown-item dropdown-toggle red accent-4 text-white" href="#">Unidades</a>
+              <ul class="dropdown-menu red accent-4">
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_unidad') }}">Nueva Unidad</a></li>
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('lista_unidades') }}">Listado Unidades</a></li>                       
+              </ul>
+            </li>
+            <li class="dropdown-submenu red accent-4"><a class="dropdown-item dropdown-toggle red accent-4 text-white" href="#">Propietarios</a>
+              <ul class="dropdown-menu red accent-4">
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_propietario') }}">ABM Propietario</a></li>                     
+              </ul>
+            </li>
+            <li class="dropdown-submenu red accent-4"><a class="dropdown-item dropdown-toggle red accent-4 text-white" href="#">Opciones</a>
+              <ul class="dropdown-menu red accent-4"> 
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_tipo_motor') }}">ABM Tipo Motor</a></li>
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_calidad_unidad') }}">ABM Calidad Unidad</a></li> 
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_tipo_habilitacion') }}">ABM Tipo Habilitacion</a></li> 
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_tipo_unidad') }}">ABM Tipo Unidad</a></li>    
+                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_tipo_suspension') }}">ABM Tipo Suspension</a></li>
+              </ul>
+            </li>
         </ul>
       </li>
     {% endif  %}

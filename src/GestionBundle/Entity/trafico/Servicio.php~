@@ -711,4 +711,38 @@ class Servicio
     {
         return $this->estructura;
     }
+
+    /**
+     * Add turno
+     *
+     * @param \GestionBundle\Entity\trafico\Turno $turno
+     *
+     * @return Servicio
+     */
+    public function addTurno(\GestionBundle\Entity\trafico\Turno $turno)
+    {
+        $this->turnos[] = $turno;
+
+        return $this;
+    }
+
+    /**
+     * Remove turno
+     *
+     * @param \GestionBundle\Entity\trafico\Turno $turno
+     */
+    public function removeTurno(\GestionBundle\Entity\trafico\Turno $turno)
+    {
+        $this->turnos->removeElement($turno);
+    }
+
+    /**
+     * Get turnos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTurnos()
+    {
+        return $this->turnos;
+    }
 }

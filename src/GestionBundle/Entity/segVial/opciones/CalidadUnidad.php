@@ -5,19 +5,18 @@ namespace GestionBundle\Entity\segVial\opciones;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 /**
- * TipoUnidad
+ * CalidadUnidad
  *
- * @ORM\Table(name="seg_vial_opciones_tipo_unidad")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\opciones\TipoUnidadRepository")
- * @UniqueEntity(
- *     fields={"tipo"},
- *     errorPath="tipo",
- *     message="Tipo de unidad existente en la Base de Datos"
+ * @ORM\Table(name="seg_vialopciones_calidad_unidad")
+ * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\opciones\CalidadUnidadRepository")
+  * @UniqueEntity(
+ *     fields={"calidad"},
+ *     errorPath="calidad",
+ *     message="Calidad de unidad existente en la Base de Datos"
  * )
  */
-class TipoUnidad
+class CalidadUnidad
 {
     /**
      * @var int
@@ -31,15 +30,14 @@ class TipoUnidad
     /**
      * @var string
      *
-     * @ORM\Column(name="tipo", type="string", length=255, unique=true)
+     * @ORM\Column(name="calidad", type="string", length=255)
      * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
-    private $tipo;
-
+    private $calidad;
 
     public function __toString()
     {
-        return strtoupper($this->tipo);
+        return strtoupper($this->calidad);
     }
 
     /**
@@ -53,26 +51,26 @@ class TipoUnidad
     }
 
     /**
-     * Set tipo
+     * Set calidad
      *
-     * @param string $tipo
+     * @param string $calidad
      *
-     * @return TipoUnidad
+     * @return CalidadUnidad
      */
-    public function setTipo($tipo)
+    public function setCalidad($calidad)
     {
-        $this->tipo = $tipo;
+        $this->calidad = $calidad;
 
         return $this;
     }
 
     /**
-     * Get tipo
+     * Get calidad
      *
      * @return string
      */
-    public function getTipo()
+    public function getCalidad()
     {
-        return $this->tipo;
+        return $this->calidad;
     }
 }

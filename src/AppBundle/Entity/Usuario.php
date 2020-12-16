@@ -74,6 +74,12 @@ class Usuario  implements UserInterface
     private $estructuras;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Perfil")
+     * @ORM\JoinColumn(name="id_perfil", referencedColumnName="id")
+     */
+    private $perfil;
+
+    /**
      * @ORM\Column(name="activo", type="boolean", nullable=false, options={"default":true})
      */
     private $activo = true;
@@ -305,5 +311,29 @@ class Usuario  implements UserInterface
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set perfil
+     *
+     * @param \AppBundle\Entity\Perfil $perfil
+     *
+     * @return Usuario
+     */
+    public function setPerfil(\AppBundle\Entity\Perfil $perfil = null)
+    {
+        $this->perfil = $perfil;
+
+        return $this;
+    }
+
+    /**
+     * Get perfil
+     *
+     * @return \AppBundle\Entity\Perfil
+     */
+    public function getPerfil()
+    {
+        return $this->perfil;
     }
 }

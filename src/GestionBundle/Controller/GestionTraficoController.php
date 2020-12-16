@@ -11,6 +11,10 @@ use GestionBundle\Form\trafico\ServicioType;
 use GestionBundle\Entity\trafico\Turno;
 use GestionBundle\Form\trafico\TurnoType;
 use GestionBundle\Form\utils\SelectClienteType;
+use GestionBundle\Entity\segVial\Unidad;
+use GestionBundle\Form\segVial\UnidadType;
+use GestionBundle\Entity\rrhh\Propietario;
+use GestionBundle\Form\rrhh\PropietarioType;
 
 /**
  * @Route("/trafico")
@@ -198,4 +202,159 @@ class GestionTraficoController extends Controller
         return $this->render('@Gestion/trafico/altaTurno.html.twig', ['edit' => true, 'servicio' => $servicio, 'form' => $form->createView(), 'label' => 'Modificar Turno']);
     }
 
+    ////////////////ABM Unidades///////////////////////
+    /**
+     * @Route("/segvial/unidades/alta", name="alta_unidad", methods={"GET", "POST"})
+     */
+    public function altaUnidadAction(Request $request)
+    {
+        $unidad = new Unidad();
+        $form = $this->getFormAltaUnidad($unidad, '');
+        if ($request->isMethod('POST')) 
+        {
+            $form->handleRequest($request);
+            if ($form->isValid())
+            {
+                $user = $this->getUser();
+                if (($user->getPerfil()) && ($user->getPerfil()->getPerfil() == 'PERFIL_SEGVIAL'))
+                {
+                    $unidad->setConfirmado(true);
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($unidad);
+                $em->flush();
+                $this->addFlash(
+                                    'success',
+                                    'La unidad ha sido almacenada exitosamente!'
+                                );
+                return $this->redirectToRoute('alta_unidad');
+            }
+        }
+
+        return $this->render('@Gestion/segVial/altaUnidad.html.twig', ['form' => $form->createView(), 'label' => 'Agregar Turno a Servicio']);
+    }
+
+    private function getFormAltaUnidad($unidad, $url)
+    {
+        return $this->createForm(UnidadType::class, 
+                                 $unidad, 
+                                 ['user' => $this->getUser(), 'action' => $url,'method' => 'POST']);
+    }
+
+    /**
+     * @Route("/segvial/unidades/edit/{id}", name="editar_unidad")
+     */
+    public function editarUnidadAction($id)
+    {
+        $unidad = $this->getDoctrine()->getRepository(Unidad::class)->find($id);
+        $url = $this->generateUrl('procesar_editar_unidad', ['id' => $id]);
+        $form = $this->getFormAltaUnidad($unidad, $url);
+
+        return $this->render('@Gestion/segVial/altaUnidad.html.twig', ['form' => $form->createView(), 'label' => 'Modificar Unidad']);
+    }
+
+    /**
+     * @Route("/segvial/unidades/editprs/{id}", name="procesar_editar_unidad", methods={"POST"})
+     */
+    public function procesarEditarUnidadAction($id, Request $request)
+    {
+        $unidad = $this->getDoctrine()->getRepository(Unidad::class)->find($id);
+        $url = $this->generateUrl('procesar_editar_unidad', ['id' => $id]);
+        $form = $this->getFormAltaUnidad($unidad, $url);
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $user = $this->getUser();
+            if (($user->getPerfil()) && ($user->getPerfil()->getPerfil() == 'PERFIL_SEGVIAL'))
+            {
+                $unidad->setConfirmado(true);
+            }
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash(
+                                'success',
+                                'La unidad ha sido modificada exitosamente!'
+                            );
+            return $this->redirectToRoute('lista_unidades');
+        }
+        return $this->render('@Gestion/segVial/altaUnidad.html.twig', ['form' => $form->createView(), 'label' => 'Modificar Unidad']);
+    }
+
+    /**
+     * @Route("/segvial/unidades/lista", name="lista_unidades")
+     */
+    public function listarUnidadesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(Unidad::class);
+        $unidades = $repository->getUnidades();
+        return $this->render('@Gestion/segVial/listaUnidades.html.twig', ['unidades' => $unidades]);
+    }
+
+    ////////////////ABM Propietarios///////////////////////
+    /**
+     * @Route("/rrhh/propietarios/alta", name="alta_propietario", methods={"GET", "POST"})
+     */
+    public function altaPropietarioAction(Request $request)
+    {
+        $propietario = new Propietario();
+        $form = $this->getFormAltaPropietario($propietario, '');
+        if ($request->isMethod('POST')) 
+        {
+            $form->handleRequest($request);
+            if ($form->isValid())
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($propietario);
+                $em->flush();
+                $this->addFlash(
+                                    'success',
+                                    'El propietario ha sido almacenado exitosamente!'
+                                );
+                return $this->redirectToRoute('alta_propietario');
+            }
+        }
+
+        $propietarios = $this->getDoctrine()->getRepository(Propietario::class)->getPropietarios();
+
+        return $this->render('@Gestion/rrhh/altaPropietario.html.twig', ['empleadores' => $propietarios, 'form' => $form->createView(), 'label' => 'Nuevo']);
+    }
+
+    private function getFormAltaPropietario($propietario, $url)
+    {
+        return $this->createForm(PropietarioType::class, 
+                                 $propietario, 
+                                 ['action' => $url,'method' => 'POST']);
+    }
+
+    /**
+     * @Route("/rrhh/propietarios/edit/{id}", name="editar_propietario")
+     */
+    public function editarPropietarioAction($id)
+    {
+        $propietario = $this->getDoctrine()->getRepository(Propietario::class)->find($id);
+        $url = $this->generateUrl('procesar_editar_propietario', ['id' => $id]);
+        $form = $this->getFormAltaPropietario($propietario, $url);
+        return $this->render('@Gestion/rrhh/altaPropietario.html.twig', ['edit' => true, 'form' => $form->createView(), 'label' => 'Modificar']);
+    }
+
+    /**
+     * @Route("/rrhh/propietarios/editprc/{id}", name="procesar_editar_propietario", methods={"POST"})
+     */
+    public function procesarEditarPropietarioAction($id, Request $request)
+    {
+        $propietario = $this->getDoctrine()->getRepository(Propietario::class)->find($id);
+        $url = $this->generateUrl('procesar_editar_propietario', ['id' => $id]);
+        $form = $this->getFormAltaPropietario($propietario, $url);
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash(
+                                'success',
+                                'El propietario ha sido modificado exitosamente!'
+                            );
+            return $this->redirectToRoute('alta_propietario');
+        }
+        return $this->render('@Gestion/rrhh/altaPropietario.html.twig', ['edit' => true, 'form' => $form->createView(), 'label' => 'Modificar']);
+    }
 }

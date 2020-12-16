@@ -57,7 +57,7 @@ class Usuario  implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(name="roles", type="string", columnDefinition="enum('ROLE_OPERADOR', ROLE_RESPONSABLE_TRAFICO', 'ROLE_RESPONSABLE_DIAGRAMACION')")
+     * @ORM\Column(name="roles", type="string", columnDefinition="enum('ROLE_SUPER_ADMIN', 'ROLE_OPERADOR', 'ROLE_RESPONSABLE_TRAFICO', 'ROLE_RESPONSABLE_DIAGRAMACION')")
      */
     private $roles;
 
@@ -72,6 +72,12 @@ class Usuario  implements UserInterface
      * @ORM\JoinTable(name="security_usuario_estructuras")
      */
     private $estructuras;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Perfil")
+     * @ORM\JoinColumn(name="id_perfil", referencedColumnName="id")
+     */
+    private $perfil;
 
     /**
      * @ORM\Column(name="activo", type="boolean", nullable=false, options={"default":true})
@@ -199,7 +205,7 @@ class Usuario  implements UserInterface
 
     public function getRoles()
     {
-        return $this->roles;
+        return [$this->roles];
     }
 
  

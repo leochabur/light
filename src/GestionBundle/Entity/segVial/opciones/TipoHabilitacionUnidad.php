@@ -3,12 +3,19 @@
 namespace GestionBundle\Entity\segVial\opciones;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TipoHabilitacionUnidad
  *
  * @ORM\Table(name="seg_vial_opciones_tipo_hab_unidad")
  * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\opciones\TipoHabilitacionUnidadRepository")
+  * @UniqueEntity(
+ *     fields={"tipo"},
+ *     errorPath="tipo",
+ *     message="Tipo de Habilitacion existente en la Base de Datos"
+ * )
  */
 class TipoHabilitacionUnidad
 {
@@ -25,8 +32,10 @@ class TipoHabilitacionUnidad
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=255, unique=true)
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $tipo;
+
 
     public function __toString()
     {
