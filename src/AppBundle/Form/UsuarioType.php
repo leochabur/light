@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class UsuarioType extends AbstractType
 {
@@ -18,8 +19,8 @@ class UsuarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('username')
-        ->add('apellido')
-        ->add('nombre')
+                ->add('apellido')
+                ->add('nombre')
                 ->add('plainPassword', 
                       RepeatedType::class,
                       ['type' => PasswordType::class,
@@ -40,7 +41,20 @@ class UsuarioType extends AbstractType
                     'required' => true,
                     )
                 )
+                ->add('perfil')
                 ->add('registrar', SubmitType::class);
+
+                $builder->get('roles')
+                    ->addModelTransformer(new CallbackTransformer(
+                        function ($rolesArray) {
+                             // transform the array to a string
+                             return count($rolesArray)? $rolesArray[0]: null;
+                        },
+                        function ($rolesString) {
+                             // transform the string back to an array
+                             return [$rolesString];
+                        }
+                ));
     }/**
      * {@inheritdoc}
      */

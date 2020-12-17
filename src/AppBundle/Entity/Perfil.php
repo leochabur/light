@@ -61,4 +61,9 @@ class Perfil
     {
         return $this->perfil;
     }
+
+    public function __toString()
+    {
+        return $this->perfil;
+    }
 }

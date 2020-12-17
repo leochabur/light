@@ -251,7 +251,7 @@ class Unidad
      *
      * @ORM\Column(name="confirmado", type="boolean")
      */
-    private $confirmado;
+    private $confirmado = false;
 
     /**
      * @Assert\Callback

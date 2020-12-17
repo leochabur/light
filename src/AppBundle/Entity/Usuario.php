@@ -75,7 +75,7 @@ class Usuario  implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="Perfil")
-     * @ORM\JoinColumn(name="id_perfil", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_perfil", referencedColumnName="id", nullable=true)
      */
     private $perfil;
 
