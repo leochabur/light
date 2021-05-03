@@ -1,23 +1,16 @@
 <?php
 
-namespace GestionBundle\Entity\segVial\opciones;
+namespace GestionBundle\Entity\rrhh;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * TipoUnidad
+ * TipoLicencia
  *
- * @ORM\Table(name="seg_vial_opciones_tipo_unidad")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\opciones\TipoUnidadRepository")
- * @UniqueEntity(
- *     fields={"tipo"},
- *     errorPath="tipo",
- *     message="Tipo de unidad existente en la Base de Datos"
- * )
+ * @ORM\Table(name="rrhh_tipo_licencia")
+ * @ORM\Entity(repositoryClass="GestionBundle\Repository\rrhh\TipoLicenciaRepository")
  */
-class TipoUnidad
+class TipoLicencia
 {
     /**
      * @var int
@@ -32,15 +25,9 @@ class TipoUnidad
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=255, unique=true)
-     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $tipo;
 
-
-    public function __toString()
-    {
-        return strtoupper($this->tipo);
-    }
 
     /**
      * Get id
@@ -57,7 +44,7 @@ class TipoUnidad
      *
      * @param string $tipo
      *
-     * @return TipoUnidad
+     * @return TipoLicencia
      */
     public function setTipo($tipo)
     {
@@ -76,3 +63,4 @@ class TipoUnidad
         return $this->tipo;
     }
 }
+

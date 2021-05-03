@@ -34,6 +34,12 @@ class Ciudad
      */
     private $provincia;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estructura")
+     * @ORM\JoinColumn(name="id_estructura", referencedColumnName="id")
+     */
+    private $estructura;
+
 
     public function __toString()
     {

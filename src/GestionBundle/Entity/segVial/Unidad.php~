@@ -251,7 +251,7 @@ class Unidad
      *
      * @ORM\Column(name="confirmado", type="boolean")
      */
-    private $confirmado;
+    private $confirmado = false;
 
     /**
      * @Assert\Callback
@@ -1025,5 +1025,53 @@ class Unidad
             $dominio = substr($this->dominioNuevo, 0, 2).'-'.substr($this->dominioNuevo, 2, 3).'-'.substr($this->dominioNuevo, 5);
         }
         return strtoupper($dominio);
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     *
+     * @return Unidad
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+    /**
+     * Set confirmado
+     *
+     * @param boolean $confirmado
+     *
+     * @return Unidad
+     */
+    public function setConfirmado($confirmado)
+    {
+        $this->confirmado = $confirmado;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmado
+     *
+     * @return boolean
+     */
+    public function getConfirmado()
+    {
+        return $this->confirmado;
     }
 }

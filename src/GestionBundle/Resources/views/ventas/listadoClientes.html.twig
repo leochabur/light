@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set fontawesome, inputmask = false, false %}
 {% block content %}
     <div class="h3 mt-5 mb-2">Listado de clientes</div>
     <hr>
@@ -8,7 +8,7 @@
 	    <tr>
 	      <th scope="col">Prefijo</th>
 	      <th scope="col">Razon Social</th>
-	      <th scope="col">CUIT</th>
+	      <th scope="col">Nombre Fantasia</th>
 	      <th scope="col">Estado</th>
 	      <th scope="col"></th>
 	    </tr>
@@ -18,13 +18,26 @@
 	  		<tr>
 	  			<td>{{ c.prefijo|upper }}</td>
 	  			<td>{{ c.razonSocial|upper }}</td>
-	  			<td>{{ c.cuit }}</td>
+	  			<td>{{ c.nombreFantasia|upper }}</td>
 	  			<td>
-	  				{% if c.activo %}
-	  					Activo
-	  				{% else %}
-	  					Inactivo
-	  				{% endif %}
+	  				<div class="custom-control custom-switch">
+					  <input type="checkbox" 
+					  		 class="custom-control-input state" 
+					  		 {% if c.activo %}
+					  		 		checked 
+					  		 {% endif %}
+					  		 id="switch{{ loop.index }}"
+					  		 data-id="{{ c.id }}">
+					  <label class="custom-control-label" for="switch{{ loop.index }}">
+						  	<span id="span{{ c.id }}">
+							  	{% if c.activo %}
+			  						Activo
+				  				{% else %}
+				  					Inactivo
+				  				{% endif %}
+				  			</span>
+		  			  </label>
+					</div>	  				
 	  			</td>
 	  			<td class="text-center"><a href="{{ path('editar_cliente', {id : c.id}) }}" class="btn btn-sm btn-default">Editar</a></td>
 	  		</tr>
@@ -37,6 +50,37 @@
 {% block javascripts %}
 
 <script type="text/javascript">
+		
+		$(document).ready(function(){
+				const route = "{{ path('cliente_change_state', { id : 'CLIENTE_ID'}) }}";
+
+				$('.state').change(function(){
+											   const btn = $(this);
+											   const id = btn.data('id');
+											   let idroute = route.replace('CLIENTE_ID', id);
+											   const state = (btn.is(':checked') == true)?1:0;
+											   $.post(idroute,
+											   		  {'state' : state},
+											   		  function(data){
+											   		  		if(data.status)
+											   		  		{
+											   		  			if (state)
+											   		  			{
+											   		  				$('#span'+id).html('Activo');
+											   		  			}
+											   		  			else
+											   		  			{
+											   		  				$('#span'+id).html('Inactivo');
+											   		  			}
+											   		  		}
+											   		  		else
+											   		  		{
+											   		  			alert(data.message);
+											   		  		}
+											   		  });
+											   
+				});
+		});
 
 </script>
 {% endblock %}

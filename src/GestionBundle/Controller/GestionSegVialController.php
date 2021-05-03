@@ -18,13 +18,62 @@ use GestionBundle\Entity\segVial\opciones\TipoMotor;
 use GestionBundle\Form\segVial\opciones\TipoMotorType;
 use GestionBundle\Entity\segVial\opciones\TipoHabilitacionUnidad;
 use GestionBundle\Form\segVial\opciones\TipoHabilitacionUnidadType;
+use GestionBundle\Entity\segVial\peajes\EstacionPeaje;
+use GestionBundle\Form\segVial\peajes\EstacionPeajeType;
 
 /**
  * @Route("/admin")
  */
 
-class AdministracionController extends Controller
+class GestionSegVialController extends Controller
 {
+
+
+    //////////////ADMINISTRAR PEAJES////////////////////////
+    /**
+     * @Route("/segvial/peajes/estpeaje", name="alta_estacion_peaje", methods={"GET", "POST"})
+     */
+    public function altaEstacionPeajeAction(Request $request)
+    {
+        $estacion = new EstacionPeaje();
+        $form = $this->getFormAltaEstacionPeaje($estacion, '');
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->getMethod() == 'POST') 
+        {
+            $form->handleRequest($request);
+            if ($form->isValid())
+            {                
+                $em->persist($estacion);
+                $em->flush();
+                $this->addFlash(
+                                    'success',
+                                    'La estacion de peaje ha sido generada exitosamente!'
+                                );
+                return $this->redirectToRoute('alta_estacion_peaje');
+            }
+        }
+
+        $estaciones = $em->getRepository(EstacionPeaje::class)->findBy([], ['nombre' => 'ASC']);;
+
+        return $this->render('@Gestion/segVial/peajes/abmEstacionPeaje.html.twig', 
+                            ['estaciones' => $estaciones, 'label' => 'Nueva', 'form' => $form->createView()]);
+    }
+
+    private function getFormAltaEstacionPeaje($estacion, $url)
+    {
+        return $this->createForm(EstacionPeajeType::class, $estacion, ['user' => $this->getUser(), 'action' => $url,'method' => 'POST']);
+    }
+
+    /**
+     * @Route("/segvial/peajes/addtu", name="add_tipo_estacion_peaje", methods={"GET", "POST"})
+     */
+    public function addTipoUnidad(Request $request)
+    {
+
+    }
+    //////////////////////////////////////////////////////
+
 
     ////////////ABM Tipo Unidad
     /**

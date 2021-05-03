@@ -89,13 +89,13 @@
 		            	{{ form_widget(ubicacion.estructura , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
 		            </div>
             	</div>
-            </li>
-            	
+            </li>           
         {% endfor %}
 
 </ul>
+	
 		</div>
-
+		<div class="text-danger">{{ form_errors(form) }}</div>
     	<div class='form-row ml-2 mt-4 h4 text-muted'>
     		Datos de contacto
     	</div>

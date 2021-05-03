@@ -21,7 +21,7 @@
 			  			<td>
 			  				{{ s.propietario|upper }}
 			  				{% if not s.confirmado %}
-			  					<i class="fas fa-exclamation-triangle" title="Pendiente de carga"></i>
+			  					<span class="class="text-right""><i class="fas fa-exclamation-triangle" title="Pendiente de carga"></i></span>
 			  				{% endif %}
 			  			</td>
 			  			<td>{{ s.interno|upper }}</td>

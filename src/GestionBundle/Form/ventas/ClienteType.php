@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\EntityType;
 use GestionBundle\Form\ventas\UbicacionEstructuraClienteType;
 
 
@@ -87,6 +88,7 @@ class ClienteType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'GestionBundle\Entity\ventas\Cliente'
         ));
+        
     }
 
     /**

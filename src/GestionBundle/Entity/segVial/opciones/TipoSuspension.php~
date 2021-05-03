@@ -3,13 +3,21 @@
 namespace GestionBundle\Entity\segVial\opciones;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TipoSuspension
  *
  * @ORM\Table(name="seg_vial_opciones_tipo_suspension")
  * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\opciones\TipoSuspensionRepository")
+ * @UniqueEntity(
+ *     fields={"tipo"},
+ *     errorPath="tipo",
+ *     message="Tipo de suspension existente en la Base de Datos"
+ * )
  */
+
 class TipoSuspension
 {
     /**
@@ -25,6 +33,7 @@ class TipoSuspension
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=255, unique=true)
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $tipo;
 
@@ -32,6 +41,7 @@ class TipoSuspension
     {
         return strtoupper($this->tipo);
     }
+
 
     /**
      * Get id

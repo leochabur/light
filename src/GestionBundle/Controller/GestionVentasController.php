@@ -10,6 +10,8 @@ use GestionBundle\Form\ventas\ClienteType;
 use Symfony\Component\HttpFoundation\Request;
 use GestionBundle\Entity\ventas\Ciudad;
 use GestionBundle\Form\ventas\CiudadType;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/ventas")
@@ -56,6 +58,26 @@ class GestionVentasController extends Controller
     /////////////////////////
 
     /////////////////MANEJO DE CLIENTES///////////////////////////////////////////
+
+    /**
+     * @Route("/cliente/state/{id}", name="cliente_change_state")
+     */
+    public function changeStateCliente($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cliente = $em->find(Cliente::class, $id);
+
+        if (!$cliente) 
+        {
+            return new JsonResponse(['status' => false, 'message' => 'Cliente inexistente']);
+        }
+
+        $state = $request->request->get('state');
+        $cliente->setActivo($state);
+        $em->flush();
+        return new JsonResponse(['status' => true]);
+    }
+
     /**
      * @Route("/cliente/alta", name="alta_cliente")
      */
@@ -70,7 +92,9 @@ class GestionVentasController extends Controller
 
     private function getFormAltaCliente($cliente, $action)
     {
- 		return $this->createForm(ClienteType::class, $cliente, ['action' => $action,'method' => 'POST']);
+ 		return $this->createForm(ClienteType::class, 
+                                $cliente, 
+                                ['action' => $action,'method' => 'POST']);
     }
 
     /**
@@ -89,6 +113,8 @@ class GestionVentasController extends Controller
             $em->flush();
             return $this->redirectToRoute('alta_cliente');
         }
+
+
         return $this->render('@Gestion/ventas/altaCliente.html.twig', ['form' => $form->createView(), 'label' => 'Nuevo Cliente']);
     }
 

@@ -9,7 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use AppBundle\Entity\Estructura;
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsuariosController extends Controller
 {
@@ -79,5 +80,15 @@ class UsuariosController extends Controller
     public function indexAction()
     {
        return $this->render('@Gestion/Default/index.html.twig');
+    }
+
+    /**
+     * @Route("/setsession", name="set_session_menu")
+     */
+    public function setSessionMenuAction(Request $request)
+    {
+        $module = $request->request->get('module');
+        $this->get('session')->set('module', $module);
+       return new JsonResponse(['route' => $this->generateUrl('home_page')]);
     }
 }

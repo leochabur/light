@@ -76,7 +76,7 @@ class GestionTraficoController extends Controller
         $user = $this->getUser();
         return $this->createForm(ServicioType::class, 
                                  $servicio, 
-                                 ['usuario' => $user, 'action' => $url,'method' => 'POST']);
+                                 ['usuario' => $user, 'action' => $url,'method' => 'POST', 'estructura' => $this->get('session')->get('estructura')]);
     }
 
     /**
