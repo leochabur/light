@@ -1,16 +1,16 @@
 <?php
 
-namespace GestionBundle\Entity\rrhh;
+namespace GestionBundle\Entity\segVial\eventos;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TipoLicencia
+ * TipoInfraccion
  *
- * @ORM\Table(name="rrhh_tipo_licencia")
- * @ORM\Entity(repositoryClass="GestionBundle\Repository\rrhh\TipoLicenciaRepository")
+ * @ORM\Table(name="seg_vialeventos_tipo_infraccion")
+ * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\eventos\TipoInfraccionRepository")
  */
-class TipoLicencia
+class TipoInfraccion
 {
     /**
      * @var int
@@ -24,7 +24,7 @@ class TipoLicencia
     /**
      * @var string
      *
-     * @ORM\Column(name="tipo", type="string", length=255, unique=true)
+     * @ORM\Column(name="tipo", type="string", length=255)
      */
     private $tipo;
 
@@ -44,7 +44,7 @@ class TipoLicencia
      *
      * @param string $tipo
      *
-     * @return TipoLicencia
+     * @return TipoInfraccion
      */
     public function setTipo($tipo)
     {
@@ -63,4 +63,3 @@ class TipoLicencia
         return $this->tipo;
     }
 }
-

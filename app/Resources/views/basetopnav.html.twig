@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-end grey lighten-2">
   <div class="container">
-    <a href="{{ path('home_page') }}"><img src="{{ asset('resources/img/masterbus-logo.png') }}" height="30" alt="mdb logo"></a>
+    <a href="{{ path('return_to_home') }}"><img src="{{ asset('resources/img/masterbus-logo.png') }}" height="30" alt="mdb logo"></a>
     <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
         <ul class="navbar-nav text-right">
             <li class="nav-item dropdown"> 
@@ -19,13 +19,13 @@
 </nav>
 {% set module = app.session.get('module') %}
 {% if module == 'RRHH' %}    
-    RRHH
+    {% include 'navRRHH.html.twig' %}
 {% elseif module == 'SEGVIAL' %}
-    SEGVIAL
+    {% include 'navSEGVIAL.html.twig' %}
 {% elseif module == 'VENTAS' %}
-    VENTAS
+    {% include 'navVENTAS.html.twig' %}
 {% elseif module == 'TRAFICO' %}
-    TRAFICO
+    {% include 'navTRAFICO.html.twig' %}
 {% else %}
 
       <nav class="navbar navbar-expand-lg navbar-dark  red accent-4">

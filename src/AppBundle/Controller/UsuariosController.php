@@ -70,7 +70,7 @@ class UsuariosController extends Controller
     public function selectEstructuraAction()
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
+        $this->get('session')->set('module', null);
         return $this->render('default/select.html.twig');
     }
 
@@ -78,7 +78,7 @@ class UsuariosController extends Controller
      * @Route("/home", name="home_page")
      */
     public function indexAction()
-    {
+    {       
        return $this->render('@Gestion/Default/index.html.twig');
     }
 
@@ -90,5 +90,14 @@ class UsuariosController extends Controller
         $module = $request->request->get('module');
         $this->get('session')->set('module', $module);
        return new JsonResponse(['route' => $this->generateUrl('home_page')]);
+    }
+
+    /**
+     * @Route("/rethome", name="return_to_home")
+     */
+    public function returnToHomeAction()
+    {
+        $this->get('session')->set('module', null);
+        return $this->redirectToRoute('home_page');
     }
 }
