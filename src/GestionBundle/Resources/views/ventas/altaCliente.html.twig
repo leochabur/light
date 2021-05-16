@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+		<style>
+		#map_canvas {
+  width:780px;
+  height:480px;
+}
+</style>
     <div class="h3 mt-5 mb-3">{{ label }}</div>
     <hr>
     {{ form_start(form, {'attr' : {'novalidate' : 'novalidate', 'class' : 'border border-light'}}) }}
@@ -74,11 +80,11 @@
             	<div class='form-row'>
             		<div class=' col-lg-3'>
 		            	{{ form_label(ubicacion.latitud, 'Latitud') }}
-		            	{{ form_widget(ubicacion.latitud , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
+		            	{{ form_widget(ubicacion.latitud , { 'attr' : {'class' : 'latitud form-control form-control-sm'}}) }}
 		            </div>
             		<div class=' col-lg-3'>
 		            	{{ form_label(ubicacion.longitud, 'Longitud') }}
-		            	{{ form_widget(ubicacion.longitud , { 'attr' : {'class' : 'form-control form-control-sm'}}) }}
+		            	{{ form_widget(ubicacion.longitud , { 'attr' : {'class' : 'longitud form-control form-control-sm'}}) }}
 		            </div>
             		<div class=' col-lg-3'>
 		            	{{ form_label(ubicacion.ciudad, 'Ciudad') }}
@@ -131,55 +137,48 @@
 		<div class='form-row ml-4 mr-2 mt-2'>
 			{{ form_widget(form.guardar, { 'attr' : {'class' : 'btn btn-success'}}) }}
 		</div>
-    
+  <div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Seleccionar coordenadas</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div id="map_canvas">
+
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
     {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
-
+<script type = "text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMWxzUoadM_CcbqLBeqGp2xMYfSjyMJ-M"> </script>
 <script type="text/javascript">
+
+
+
 var $collectionHolder;
 
 // setup an "add a tag" link
 var $addTagLink = $('<a href="#" class="add_tag_link btn btn-sm btn-warning">Nueva Ubicacion Planta</a>');
 var $newLinkLi = $('<li></li>').append($addTagLink);
+var i = 1;
+let latitud, longitud, map;
 
-$(document).ready(function(){
-		$( ".cuit" ).inputmask({
-								mask: '99-99999999-9',
-								placeholder: '99-99999999-9',
-								showMaskOnHover: true,
-								showMaskOnFocus: true
-							  });
+function addTagForm($collectionHolder, $newLinkLi, indice) {
 
-    // Get the ul that holds the collection of tags
-   var $collectionHolder = $('ul.tags');
-    
-
-    $collectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
-    });
-
-    // add the "add a tag" anchor and li to the tags ul
-    $collectionHolder.append($newLinkLi);
-    
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
-    
-    $addTagLink.on('click', function(e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-        
-        // add a new tag form (see code block below)
-        addTagForm($collectionHolder, $newLinkLi);
-    });
-
-							    
-	});
-
-
-function addTagForm($collectionHolder, $newLinkLi) {
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
     
@@ -194,9 +193,10 @@ function addTagForm($collectionHolder, $newLinkLi) {
     $collectionHolder.data('index', index + 1);
     
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<li></li>').append(newForm);
+    var $newFormLi = $('<li class="ll-'+indice+'"></li>').append(newForm);
     
     // also add a remove button, just for this example
+    $newFormLi.append('<a data-toggle="modal" data-target="#myModal" class="mr-2" onClick="showForm('+indice+');"><i class="far fa-map"></i></a>');
     $newFormLi.append('<a href="#" class="remove-tag btn-sm btn-danger">x</a>');
     
     $newLinkLi.before($newFormLi);
@@ -213,6 +213,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
 function addTagFormDeleteLink($tagFormLi) {
     var $removeFormButton = $('<a class="btn btn-sm btn-danger">x</a>');
+    $tagFormLi.append('<a data-toggle="modal" data-target="#myModal" class="mr-2" onClick="showFormOnComponent(this);"><i class="far fa-map"></i></a>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {
@@ -220,6 +221,78 @@ function addTagFormDeleteLink($tagFormLi) {
         $tagFormLi.remove();
     });
 }
+
+function showFormOnComponent(component)
+{
+	latitud = $(component).siblings().find('.latitud');
+	longitud = $(component).siblings().find('.longitud');
+	//var li = $('.ll-'+indice);
+//	latitud = $(li).find('.latitud');
+//	longitud = $(li).find('.longitud');
+
+}
+
+$(document).ready(function(){
+				
+				$( ".cuit" ).inputmask({
+										mask: '99-99999999-9',
+										placeholder: '99-99999999-9',
+										showMaskOnHover: true,
+										showMaskOnFocus: true
+									  });
+			   var $collectionHolder = $('ul.tags');
+			    $collectionHolder.find('li').each(function() {
+			        addTagFormDeleteLink($(this));
+			    });
+			    $collectionHolder.append($newLinkLi);
+			    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+			    
+			    $addTagLink.on('click', function(e) {
+			        e.preventDefault();
+			        addTagForm($collectionHolder, $newLinkLi, i);
+			        i++;
+			    });
+    			
+
+    			$("#myModal").on("shown.bs.modal", function () {												   
+												    			map = new google.maps.Map(document.getElementById('map_canvas'), {
+																	                zoom: 8,
+																	                mapTypeId: google.maps.MapTypeId.ROADMAP
+																	            });
+
+												    			initialize();
+																google.maps.event.trigger(map, "resize");
+																});
+
+
+				function initialize() {
+							            var vMarker = new google.maps.Marker({
+							                position: new google.maps.LatLng( { lat: -34.09557942423603, lng: -59.0513387178529 }),
+							                draggable: true
+							            });
+							            google.maps.event.addListener(vMarker, 'dragend', function (evt) {
+
+							                $(latitud).val(evt.latLng.lat().toFixed(6));
+							                $(longitud).val(evt.latLng.lng().toFixed(6));
+
+							                map.panTo(evt.latLng);
+							            });
+							            map.setCenter(vMarker.position);
+							            vMarker.setMap(map);
+							        }
+		    
+});
+
+function showForm(indice)
+{
+	var li = $('.ll-'+indice);
+	latitud = $(li).find('.latitud');
+	longitud = $(li).find('.longitud');
+
+}
+
+
+
 
 
 </script>

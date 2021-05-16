@@ -122,6 +122,7 @@ class Cliente
 
     /**
      * @ORM\OneToMany(targetEntity="UbicacionEstructuraCliente", mappedBy="cliente", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $ubicaciones;
 

@@ -16,6 +16,7 @@ class CiudadType extends AbstractType
     {
         $builder->add('nombre')
                 ->add('provincia')
+                ->add('estructuras')
                 ->add('guardar', SubmitType::class);
     }/**
      * {@inheritdoc}

@@ -3,6 +3,7 @@
 namespace GestionBundle\Entity\rrhh;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Propietario
@@ -25,6 +26,7 @@ class Propietario
      * @var string
      *
      * @ORM\Column(name="razonSocial", type="string", length=255)
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $razonSocial;
 
@@ -32,9 +34,15 @@ class Propietario
      * @var string
      *
      * @ORM\Column(name="cuit", type="string", length=255)
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $cuit;
 
+
+    public function __toString()
+    {
+        return strtoupper($this->razonSocial);
+    }
 
     /**
      * Get id
@@ -93,5 +101,14 @@ class Propietario
     {
         return $this->cuit;
     }
-}
 
+    public function getFormatCuit()
+    {
+        $cuit = '';
+        if ($this->cuit)
+        {
+            $cuit = substr($this->cuit, 0, 2).'-'.substr($this->cuit, 2,8).'-'.substr($this->cuit, 10);
+        }
+        return strtoupper($cuit);
+    }
+}

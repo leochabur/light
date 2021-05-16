@@ -3,12 +3,19 @@
 namespace GestionBundle\Entity\ventas;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Ciudad
  *
  * @ORM\Table(name="ventas_ciudad")
  * @ORM\Entity(repositoryClass="GestionBundle\Repository\ventas\CiudadRepository")
+ * @UniqueEntity(
+ *     fields={"nombre", "provincia"},
+ *     errorPath="nombre",
+ *     message="Ciudad existente en la Base de Datos!"
+ * )
  */
 class Ciudad
 {
@@ -25,21 +32,31 @@ class Ciudad
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $nombre;
 
     /**
      * @ORM\ManyToOne(targetEntity="Provincia")
      * @ORM\JoinColumn(name="id_provincia", referencedColumnName="id")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $provincia;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estructura")
-     * @ORM\JoinColumn(name="id_estructura", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Estructura")
+     * @ORM\JoinTable(name="ventas_ciudades_estructuras",
+     *      joinColumns={@ORM\JoinColumn(name="id_ciudad", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_estructura", referencedColumnName="id")}
+     *      )
      */
-    private $estructura;
+    private $estructuras;
 
+    /**
+     * @ORM\Column(name="activo", type="boolean", options={"default": true})
+     */
+    private $activo = true;
+    
 
     public function __toString()
     {
@@ -102,5 +119,71 @@ class Ciudad
     public function getProvincia()
     {
         return $this->provincia;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     *
+     * @return Ciudad
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->estructuras = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     *
+     * @return Ciudad
+     */
+    public function addEstructura(\AppBundle\Entity\Estructura $estructura)
+    {
+        $this->estructuras[] = $estructura;
+
+        return $this;
+    }
+
+    /**
+     * Remove estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     */
+    public function removeEstructura(\AppBundle\Entity\Estructura $estructura)
+    {
+        $this->estructuras->removeElement($estructura);
+    }
+
+    /**
+     * Get estructuras
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEstructuras()
+    {
+        return $this->estructuras;
     }
 }

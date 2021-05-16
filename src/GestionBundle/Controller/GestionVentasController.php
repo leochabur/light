@@ -22,19 +22,34 @@ class GestionVentasController extends Controller
 
     ////////////ABM ciudad
     /**
-     * @Route("/ciudades/alta", name="alta_ciudad")
+     * @Route("/ciudades/alta", name="alta_ciudad", methods={"POST", "GET"})
      */
-    public function altaCiudadAction()
+    public function altaCiudadAction(Request $request)
     {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $ciudades = $em->getRepository(Ciudad::class)->findBy([], ['nombre' => 'ASC']);
+
         $ciudad = new Ciudad();
         $form = $this->getFormAltaCiudad($ciudad);
+        if ($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+            if ($form->isValid())
+            {
+                $em->persist($ciudad);
+                $em->flush();
+                $this->addFlash('success', 'Ciudad almacenada exitosamente!');
+                return $this->redirectToRoute('alta_ciudad');
+            }
+        }
 
-        return $this->render('@Gestion/ventas/altaCiudad.html.twig', ['form' => $form->createView()]);
+        return $this->render('@Gestion/ventas/altaCiudad.html.twig', ['form' => $form->createView(), 'ciudades' => $ciudades]);
     }
 
     private function getFormAltaCiudad($ciudad)
     {
-        return $this->createForm(CiudadType::class, $ciudad, ['action' => $this->generateUrl('alta_ciudad_procesar'),'method' => 'POST']);
+        return $this->createForm(CiudadType::class, $ciudad, ['method' => 'POST']);
     }
 
     /**

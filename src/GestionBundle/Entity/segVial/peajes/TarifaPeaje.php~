@@ -3,12 +3,19 @@
 namespace GestionBundle\Entity\segVial\peajes;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TarifaPeaje
  *
  * @ORM\Table(name="seg_vial_peajes_tarifa_peaje")
  * @ORM\Entity(repositoryClass="GestionBundle\Repository\segVial\peajes\TarifaPeajeRepository")
+ * @UniqueEntity(
+ *     fields={"tipoUnidad", "estacionPeaje"},
+ *     errorPath="tipoUnidad",
+ *     message="Existe una tarifa para el tipo de unidad!"
+ * )
  */
 class TarifaPeaje
 {
@@ -105,5 +112,52 @@ class TarifaPeaje
     {
         return $this->tarifaTelepase;
     }
-}
 
+    /**
+     * Set tipoUnidad
+     *
+     * @param \GestionBundle\Entity\segVial\opciones\TipoUnidad $tipoUnidad
+     *
+     * @return TarifaPeaje
+     */
+    public function setTipoUnidad(\GestionBundle\Entity\segVial\opciones\TipoUnidad $tipoUnidad = null)
+    {
+        $this->tipoUnidad = $tipoUnidad;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoUnidad
+     *
+     * @return \GestionBundle\Entity\segVial\opciones\TipoUnidad
+     */
+    public function getTipoUnidad()
+    {
+        return $this->tipoUnidad;
+    }
+
+    /**
+     * Set estacionPeaje
+     *
+     * @param \GestionBundle\Entity\segVial\peajes\EstacionPeaje $estacionPeaje
+     *
+     * @return TarifaPeaje
+     */
+    public function setEstacionPeaje(\GestionBundle\Entity\segVial\peajes\EstacionPeaje $estacionPeaje = null)
+    {
+        $this->estacionPeaje = $estacionPeaje;
+
+        return $this;
+    }
+
+    /**
+     * Get estacionPeaje
+     *
+     * @return \GestionBundle\Entity\segVial\peajes\EstacionPeaje
+     */
+    public function getEstacionPeaje()
+    {
+        return $this->estacionPeaje;
+    }
+}

@@ -39,14 +39,14 @@ class EstacionPeaje
     /**
      * @var float
      *
-     * @ORM\Column(name="latitud", type="float")
+     * @ORM\Column(name="latitud", type="float", nullable=true)
      */
     private $latitud;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="longitud", type="float")
+     * @ORM\Column(name="longitud", type="float", nullable=true)
      */
     private $longitud;
 
@@ -55,6 +55,12 @@ class EstacionPeaje
      * @ORM\JoinColumn(name="id_estructura", referencedColumnName="id")
      */
     private $estructura;
+    
+
+    public function __toString()
+    {
+        return $this->nombre;
+    }
 
     /**
      * Get id
@@ -137,5 +143,28 @@ class EstacionPeaje
     {
         return $this->longitud;
     }
-}
 
+    /**
+     * Set estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     *
+     * @return EstacionPeaje
+     */
+    public function setEstructura(\AppBundle\Entity\Estructura $estructura = null)
+    {
+        $this->estructura = $estructura;
+
+        return $this;
+    }
+
+    /**
+     * Get estructura
+     *
+     * @return \AppBundle\Entity\Estructura
+     */
+    public function getEstructura()
+    {
+        return $this->estructura;
+    }
+}

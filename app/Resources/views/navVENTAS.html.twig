@@ -12,18 +12,23 @@
 
 
 
-      <li class="nav-item dropdown red accent-4"> 
-        <a class="nav-link dropdown-toggle btn red accent-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Clientes
-        </a>
-
-              <ul class="dropdown-menu red accent-4">
-                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_cliente') }}">Alta</a></li>
-                    <li><a class="dropdown-item red accent-4 text-white" href="{{ path('listado_clientes') }}">Listado</a></li>                      
-              </ul>
-
-      </li>
-
+            <li class="nav-item dropdown red accent-4"> 
+                    <a class="nav-link dropdown-toggle btn red accent-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Clientes
+                    </a>
+                    <ul class="dropdown-menu red accent-4">
+                          <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_cliente') }}">Alta</a></li>
+                          <li><a class="dropdown-item red accent-4 text-white" href="{{ path('listado_clientes') }}">Listado</a></li>                      
+                    </ul>
+            </li>
+            <li class="nav-item dropdown red accent-4"> 
+                    <a class="nav-link dropdown-toggle btn red accent-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Opciones
+                    </a>
+                    <ul class="dropdown-menu red accent-4">
+                          <li><a class="dropdown-item red accent-4 text-white" href="{{ path('alta_ciudad') }}">Nueva Ciudad</a></li>                    
+                    </ul>
+            </li>
 
 
     {% endif  %}

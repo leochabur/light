@@ -3,6 +3,7 @@
 namespace GestionBundle\Entity\ventas;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UbicacionEstructura
@@ -22,24 +23,28 @@ class UbicacionEstructuraCliente
     private $id;
 
     /**
-     * @ORM\Column(name="latitud", type="float")
+     * @ORM\Column(name="latitud", type="decimal", precision=15, scale=12)
+     * @Assert\NotNull(message="El campo latitud no puede permanecer en blanco")
      */
     private $latitud;
 
     /**
-     * @ORM\Column(name="longitud", type="integer")
+     * @ORM\Column(name="longitud", type="decimal", precision=15, scale=12)
+     * @Assert\NotNull(message="El campo longitud no puede permanecer en blanco")
      */
     private $longitud;
 
     /**
      * @ORM\ManyToOne(targetEntity="Ciudad")
      * @ORM\JoinColumn(name="id_ciudad", referencedColumnName="id")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $ciudad;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estructura")
      * @ORM\JoinColumn(name="id_estructura", referencedColumnName="id")
+     * @Assert\NotNull(message="El campo no puede permanecer en blanco")
      */
     private $estructura;
 

@@ -234,4 +234,172 @@ abstract class Evento
     {
         return $this->descripcion;
     }
+
+    /**
+     * Set eliminado
+     *
+     * @param boolean $eliminado
+     *
+     * @return Evento
+     */
+    public function setEliminado($eliminado)
+    {
+        $this->eliminado = $eliminado;
+
+        return $this;
+    }
+
+    /**
+     * Get eliminado
+     *
+     * @return boolean
+     */
+    public function getEliminado()
+    {
+        return $this->eliminado;
+    }
+
+    /**
+     * Set fechaAlta
+     *
+     * @param \DateTime $fechaAlta
+     *
+     * @return Evento
+     */
+    public function setFechaAlta($fechaAlta)
+    {
+        $this->fechaAlta = $fechaAlta;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaAlta
+     *
+     * @return \DateTime
+     */
+    public function getFechaAlta()
+    {
+        return $this->fechaAlta;
+    }
+
+    /**
+     * Set fechaBaja
+     *
+     * @param \DateTime $fechaBaja
+     *
+     * @return Evento
+     */
+    public function setFechaBaja($fechaBaja)
+    {
+        $this->fechaBaja = $fechaBaja;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaBaja
+     *
+     * @return \DateTime
+     */
+    public function getFechaBaja()
+    {
+        return $this->fechaBaja;
+    }
+
+    /**
+     * Set ubicacion
+     *
+     * @param \GestionBundle\Entity\segVial\eventos\UbicacionEvento $ubicacion
+     *
+     * @return Evento
+     */
+    public function setUbicacion(\GestionBundle\Entity\segVial\eventos\UbicacionEvento $ubicacion = null)
+    {
+        $this->ubicacion = $ubicacion;
+
+        return $this;
+    }
+
+    /**
+     * Get ubicacion
+     *
+     * @return \GestionBundle\Entity\segVial\eventos\UbicacionEvento
+     */
+    public function getUbicacion()
+    {
+        return $this->ubicacion;
+    }
+
+    /**
+     * Set estructura
+     *
+     * @param \AppBundle\Entity\Estructura $estructura
+     *
+     * @return Evento
+     */
+    public function setEstructura(\AppBundle\Entity\Estructura $estructura = null)
+    {
+        $this->estructura = $estructura;
+
+        return $this;
+    }
+
+    /**
+     * Get estructura
+     *
+     * @return \AppBundle\Entity\Estructura
+     */
+    public function getEstructura()
+    {
+        return $this->estructura;
+    }
+
+    /**
+     * Set usuarioAlta
+     *
+     * @param \AppBundle\Entity\Usuario $usuarioAlta
+     *
+     * @return Evento
+     */
+    public function setUsuarioAlta(\AppBundle\Entity\Usuario $usuarioAlta = null)
+    {
+        $this->usuarioAlta = $usuarioAlta;
+
+        return $this;
+    }
+
+    /**
+     * Get usuarioAlta
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUsuarioAlta()
+    {
+        return $this->usuarioAlta;
+    }
+
+    /**
+     * Set usuarioBaja
+     *
+     * @param \AppBundle\Entity\Usuario $usuarioBaja
+     *
+     * @return Evento
+     */
+    public function setUsuarioBaja(\AppBundle\Entity\Usuario $usuarioBaja = null)
+    {
+        $this->usuarioBaja = $usuarioBaja;
+
+        return $this;
+    }
+
+    /**
+     * Get usuarioBaja
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUsuarioBaja()
+    {
+        return $this->usuarioBaja;
+    }
 }
